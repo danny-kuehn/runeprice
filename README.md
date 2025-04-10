@@ -83,4 +83,4 @@ License v3.0 or later - see the [LICENSE] file for details.
 [badge-url]: https://img.shields.io/aur/version/runeprice?label=runeprice&logo=arch-linux&style=plastic
 [aur-url]: https://aur.archlinux.org/packages/runeprice
 [JSON file]: https://oldschool.runescape.wiki/w/Module:GEIDs/data.json
-[LICENSE]: LICENSE
+[LICENSE]: LICENSE.txt
