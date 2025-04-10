@@ -11,7 +11,23 @@ CLI tool for querying the [OSRS Wiki Prices API], written in Bash.
 
 ## Installation
 
-### Install
+### AUR
+
+Use your preferred AUR helper to install `runeprice`.
+
+[![runeprice][badge-url]][aur-url]
+
+Or clone and build:
+
+```
+git clone https://aur.archlinux.org/runeprice.git
+cd runeprice
+makepkg -si
+```
+
+### Non-AUR
+
+#### Install
 
 `git clone` the repository and use the installer script inside the cloned
 repository:
@@ -22,14 +38,14 @@ cd runeprice
 sudo scripts/installer.sh -i
 ```
 
-### Update
+#### Update
 
 ```
 git pull
 sudo scripts/installer.sh -i
 ```
 
-### Uninstall
+#### Uninstall
 
 ```
 sudo scripts/installer.sh -u
@@ -64,5 +80,7 @@ License v3.0 or later - see the [LICENSE] file for details.
 
 <!-- links -->
 [OSRS Wiki Prices API]: https://oldschool.runescape.wiki/w/RuneScape:Real-time_Prices
+[badge-url]: https://img.shields.io/aur/version/runeprice?label=runeprice&logo=arch-linux&style=plastic
+[aur-url]: https://aur.archlinux.org/packages/runeprice
 [JSON file]: https://oldschool.runescape.wiki/w/Module:GEIDs/data.json
 [LICENSE]: LICENSE
