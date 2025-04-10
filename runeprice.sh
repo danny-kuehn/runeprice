@@ -20,7 +20,7 @@
 
 set -euo pipefail
 
-readonly RUNEPRICE_VERSION="0.0.0"
+readonly RUNEPRICE_VERSION="0.1.0"
 readonly RUNEPRICE_API_URL="https://prices.runescape.wiki/api/v1"
 readonly RUNEPRICE_DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/runeprice"
 readonly RUNEPRICE_CONF_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/runeprice"
