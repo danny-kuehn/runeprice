@@ -26,7 +26,7 @@ $NEW_VERSION
 
 Full Changelog:
 
-https://github.com/danny-kuehn/runeprice/compare/$OLD_TAG...$NEW_VERSION"
+https://github.com/danny-kuehn/runeprice/compare/$OLD_TAG...$NEW_VERSION
 EOF
 
 git push --follow-tags
