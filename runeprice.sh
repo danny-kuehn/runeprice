@@ -18,8 +18,6 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-set -euo pipefail
-
 readonly RUNEPRICE_VERSION="0.1.0"
 readonly RUNEPRICE_API_URL="https://prices.runescape.wiki/api/v1"
 readonly RUNEPRICE_DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/runeprice"
@@ -36,9 +34,6 @@ RUNEPRICE_TIMESTEP=""
 RUNEPRICE_COMPACT_OUTPUT=0
 RUNEPRICE_MONOCHROME_OUTPUT=0
 RUNEPRICE_TEXT_OUTPUT=0
-
-# shellcheck source=/dev/null
-[[ -f "$RUNEPRICE_CONF_FILE" ]] && source "$RUNEPRICE_CONF_FILE"
 
 info() {
 	printf "%s\n" "$*" >&2
@@ -433,8 +428,13 @@ parse_opts() {
 }
 
 main() {
+	set -euo pipefail
+
+	# shellcheck source=/dev/null
+	[[ -f "$RUNEPRICE_CONF_FILE" ]] && source "$RUNEPRICE_CONF_FILE"
+
 	parse_opts "$@"
 	request_handler
 }
 
-main "$@"
+(return 0 2>/dev/null) || main "$@"
