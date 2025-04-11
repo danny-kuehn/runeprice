@@ -43,6 +43,22 @@ error() {
 	printf "ERROR: %s\n" "$*" >&2
 }
 
+dependency_check() {
+	local -a missing=()
+	local cmd
+
+	for cmd in "$@"; do
+		command -v "$cmd" &>/dev/null || missing+=("$cmd")
+	done
+
+	((${#missing[@]} > 0)) && {
+		error "missing dependencies: ${missing[*]}"
+		return 1
+	}
+
+	return 0
+}
+
 validate_endpoint() {
 	local -l endpoint="$1"
 	local -A valid_endpoints=(
@@ -430,6 +446,8 @@ parse_opts() {
 
 main() {
 	set -euo pipefail
+
+	dependency_check "curl" "jq"
 
 	# shellcheck source=/dev/null
 	[[ -f "$RUNEPRICE_CONF_FILE" ]] && source "$RUNEPRICE_CONF_FILE"
