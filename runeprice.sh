@@ -382,8 +382,17 @@ usage() {
 	cat <<EOF >&2
 Usage: runeprice -e ENDPOINT -r ROUTE [options]
 
-API Documentation:
- https://oldschool.runescape.wiki/w/RuneScape:Real-time_Prices
+ Before making your first request, you need to run:
+
+     runeprice -u -C
+
+ The '-u' option will download a JSON file provided by the OSRS Wiki that has
+ all item IDs. When new items are added to the API, you will use this option
+ to update the local JSON file.
+
+ The '-C' option generates a config file with default values. Most people will
+ probably want to set RUNEPRICE_ENDPOINT to "osrs" and RUNEPRICE_ROUTE to
+ "latest".
 
 Options:
  -c, --compact-output           print JSON as one line
@@ -412,6 +421,13 @@ Options:
  -u, --update-items             update local JSON file containing item IDs
 
  -x, --text                     print text instead of JSON
+
+Examples:
+ runeprice -e osrs -r latest -i 'blood shard'
+ runeprice -e dmm -r latest -i 'super combat potion(4)'
+
+API Documentation:
+ https://oldschool.runescape.wiki/w/RuneScape:Real-time_Prices
 EOF
 }
 
