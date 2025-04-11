@@ -133,14 +133,14 @@ validate_timestamp() {
 
 	case "$timestamp" in
 		*-*)
-			timestamp="$(date -d "$timestamp" +%s)" || {
-				error "Invalid date format: $timestamp"
+			timestamp="$(date -d "$timestamp" +%s 2>&1)" || {
+				error "$timestamp"
 				return 1
 			}
 			;;
 		*)
-			timestamp="$(date -d "@$timestamp" +%s)" || {
-				error "Invalid Unix timestamp: $timestamp"
+			timestamp="$(date -d "@$timestamp" +%s 2>&1)" || {
+				error "$timestamp"
 				return 1
 			}
 			;;
@@ -173,6 +173,38 @@ trim_all() {
 	local -a words
 	read -ra words <<<"$*"
 	printf "%s\n" "${words[*]}"
+}
+
+validate_globals() {
+	[[ -n "$RUNEPRICE_ENDPOINT" ]] &&
+		RUNEPRICE_ENDPOINT="$(validate_endpoint "$(trim_all "$RUNEPRICE_ENDPOINT")")"
+
+	[[ -n "$RUNEPRICE_ROUTE" ]] &&
+		RUNEPRICE_ROUTE="$(validate_route "$(trim_all "$RUNEPRICE_ROUTE")")"
+
+	[[ -n "$RUNEPRICE_ITEM" ]] &&
+		RUNEPRICE_ITEM="$(validate_item "$(trim_all "$RUNEPRICE_ITEM")")"
+
+	[[ -n "$RUNEPRICE_TIMESTAMP" ]] &&
+		RUNEPRICE_TIMESTAMP="$(validate_timestamp "$(trim_all "$RUNEPRICE_TIMESTAMP")")"
+
+	[[ -n "$RUNEPRICE_TIMESTEP" ]] &&
+		RUNEPRICE_TIMESTEP="$(validate_timestep "$(trim_all "$RUNEPRICE_TIMESTEP")")"
+
+	[[ "$RUNEPRICE_COMPACT_OUTPUT" =~ ^[0-9]+$ ]] || {
+		error "RUNEPRICE_COMPACT_OUTPUT contains non-digits: $RUNEPRICE_COMPACT_OUTPUT"
+		return 1
+	}
+
+	[[ "$RUNEPRICE_MONOCHROME_OUTPUT" =~ ^[0-9]+$ ]] || {
+		error "RUNEPRICE_MONOCHROME_OUTPUT contains non-digits: $RUNEPRICE_MONOCHROME_OUTPUT"
+		return 1
+	}
+
+	[[ "$RUNEPRICE_TEXT_OUTPUT" =~ ^[0-9]+$ ]] || {
+		error "RUNEPRICE_TEXT_OUTPUT contains non-digits: $RUNEPRICE_TEXT_OUTPUT"
+		return 1
+	}
 }
 
 text_handler() {
@@ -396,7 +428,7 @@ parse_opts() {
 				(($# == 0)) && exit 0
 				;;
 			-e | --endpoint)
-				RUNEPRICE_ENDPOINT="$(validate_endpoint "$(trim_all "${2:-}")")"
+				RUNEPRICE_ENDPOINT="${2:-}"
 				shift 2
 				;;
 			-h | --help)
@@ -404,7 +436,7 @@ parse_opts() {
 				exit 0
 				;;
 			-i | --item)
-				RUNEPRICE_ITEM="$(validate_item "$(trim_all "${2:-}")")"
+				RUNEPRICE_ITEM="${2:-}"
 				shift 2
 				;;
 			-M | --monochrome-output)
@@ -412,15 +444,15 @@ parse_opts() {
 				shift 1
 				;;
 			-r | --route)
-				RUNEPRICE_ROUTE="$(validate_route "$(trim_all "${2:-}")")"
+				RUNEPRICE_ROUTE="${2:-}"
 				shift 2
 				;;
 			-t | --timestamp)
-				RUNEPRICE_TIMESTAMP="$(validate_timestamp "$(trim_all "${2:-}")")"
+				RUNEPRICE_TIMESTAMP="${2:-}"
 				shift 2
 				;;
 			-T | --timestep)
-				RUNEPRICE_TIMESTEP="$(validate_timestep "$(trim_all "${2:-}")")"
+				RUNEPRICE_TIMESTEP="${2:-}"
 				shift 2
 				;;
 			-u | --update-items)
@@ -453,6 +485,7 @@ main() {
 	[[ -f "$RUNEPRICE_CONF_FILE" ]] && source "$RUNEPRICE_CONF_FILE"
 
 	parse_opts "$@"
+	validate_globals
 	request_handler
 }
 
