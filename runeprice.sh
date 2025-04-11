@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-readonly RUNEPRICE_VERSION="0.3.0"
+readonly RUNEPRICE_VERSION="0.4.0"
 readonly RUNEPRICE_API_URL="https://prices.runescape.wiki/api/v1"
 readonly RUNEPRICE_DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/runeprice"
 readonly RUNEPRICE_CONF_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/runeprice"
