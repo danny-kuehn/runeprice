@@ -273,7 +273,8 @@ update_items() {
 	mkdir -p "$RUNEPRICE_DATA_DIR"
 
 	curl -sS -o "$RUNEPRICE_ITEMS_FILE.new" \
-		'https://oldschool.runescape.wiki/?title=Module:GEIDs/data.json&action=raw&ctype=application%2Fjson'
+		'https://oldschool.runescape.wiki/?title=Module:GEIDs/data.json&action=raw&ctype=application%2Fjson' \
+		-A "$RUNEPRICE_USER_AGENT"
 
 	jq 'with_entries(.key |= ascii_downcase)' "$RUNEPRICE_ITEMS_FILE.new" >"$RUNEPRICE_ITEMS_FILE.norm" || {
 		error "Failed to normalize items file"
