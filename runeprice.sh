@@ -347,7 +347,7 @@ print_version() {
 }
 
 usage() {
-	cat <<EOF
+	cat <<EOF >&2
 Usage: runeprice -e ENDPOINT -r ROUTE [options]
 
 API Documentation:
