@@ -109,7 +109,7 @@ validate_item() {
 	}
 
 	item_id="$(jq -r --arg item "$item" '.[$item]' "$RUNEPRICE_ITEMS_FILE")" || {
-		error "Failed to retreive item ID from: $RUNEPRICE_ITEMS_FILE"
+		error "Failed to retrieve item ID from: $RUNEPRICE_ITEMS_FILE"
 		info "Please use the -u option to update the file"
 		info "If the issue persists, please report it on GitHub"
 		return 1
