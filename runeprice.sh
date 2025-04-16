@@ -18,6 +18,11 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+((EUID == 0)) && {
+	printf "ERROR: Do not run as root\n" >&2
+	exit 1
+}
+
 readonly RUNEPRICE_VERSION="1.0.0"
 readonly RUNEPRICE_API_URL="https://prices.runescape.wiki/api/v1"
 readonly RUNEPRICE_DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/runeprice"
@@ -52,7 +57,7 @@ dependency_check() {
 	done
 
 	((${#missing[@]} > 0)) && {
-		error "missing dependencies: ${missing[*]}"
+		error "Missing dependencies: ${missing[*]}"
 		return 1
 	}
 
