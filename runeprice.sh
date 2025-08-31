@@ -23,7 +23,7 @@
 	exit 1
 }
 
-readonly RUNEPRICE_VERSION="1.0.1"
+readonly RUNEPRICE_VERSION="1.0.2"
 readonly RUNEPRICE_API_URL="https://prices.runescape.wiki/api/v1"
 readonly RUNEPRICE_DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/runeprice"
 readonly RUNEPRICE_CONF_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/runeprice"
