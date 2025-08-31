@@ -214,50 +214,35 @@ validate_globals() {
 
 text_handler() {
 	local response="$1"
+	local filter
 
 	case "$RUNEPRICE_ROUTE" in
 		latest)
-			jq -r '
-				.data
-					| to_entries
-					| map(
-						"itemId: \(.key)\nhigh: \(.value.high)\nhighTime: \(.value.highTime)\nlow: \(.value.low)\nlowTime: \(.value.lowTime)"
-					)
-					| join("\n\n")
-			' <<<"$response"
+			filter='.data
+				| to_entries
+				| map("itemId: \(.key)\nhigh: \(.value.high)\nhighTime: \(.value.highTime)\nlow: \(.value.low)\nlowTime: \(.value.lowTime)")
+				| join("\n\n")'
 			;;
 		mapping)
-			jq -r '
-				map(
-					"examine: \(.examine)\nid: \(.id)\nmembers: \(.members)\nlowalch: \(.lowalch)\nlimit: \(.limit)\nvalue: \(.value)\nhighalch: \(.highalch)\nicon: \(.icon)\nname: \(.name)"
-				)
-				| join("\n\n")
-			' <<<"$response"
+			filter='map("examine: \(.examine)\nid: \(.id)\nmembers: \(.members)\nlowalch: \(.lowalch)\nlimit: \(.limit)\nvalue: \(.value)\nhighalch: \(.highalch)\nicon: \(.icon)\nname: \(.name)")
+				| join("\n\n")'
 			;;
 		5m | 1h)
-			jq -r '
-				(.data
-					| to_entries
-					| map(
-						"itemId: \(.key)\navgHighPrice: \(.value.avgHighPrice)\nhighPriceVolume: \(.value.highPriceVolume)\navgLowPrice: \(.value.avgLowPrice)\nlowPriceVolume: \(.value.lowPriceVolume)"
-					)
-					| join("\n\n")
-				)
-				+ "\n\ntimestamp: \(.timestamp)"
-			' <<<"$response"
+			filter='(.data
+				| to_entries
+				| map("itemId: \(.key)\navgHighPrice: \(.value.avgHighPrice)\nhighPriceVolume: \(.value.highPriceVolume)\navgLowPrice: \(.value.avgLowPrice)\nlowPriceVolume: \(.value.lowPriceVolume)")
+				| join("\n\n"))
+				+ "\n\ntimestamp: \(.timestamp)"'
 			;;
 		timeseries)
-			jq -r '
-				(.data
-					| map(
-						"timestamp: \(.timestamp)\navgHighPrice: \(.avgHighPrice)\navgLowPrice: \(.avgLowPrice)\nhighPriceVolume: \(.highPriceVolume)\nlowPriceVolume: \(.lowPriceVolume)"
-					)
-					| join("\n\n")
-				)
-				+ "\n\nitemId: \(.itemId)"
-			' <<<"$response"
+			filter='(.data
+				| map("timestamp: \(.timestamp)\navgHighPrice: \(.avgHighPrice)\navgLowPrice: \(.avgLowPrice)\nhighPriceVolume: \(.highPriceVolume)\nlowPriceVolume: \(.lowPriceVolume)")
+				| join("\n\n"))
+				+ "\n\nitemId: \(.itemId)"'
 			;;
 	esac
+
+	jq -r "$filter" <<<"$response"
 }
 
 response_handler() {
