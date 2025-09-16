@@ -7,4 +7,15 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 
 [*.sh]
-indent_style = tab
+indent_style = space
+indent_size = 2
+
+# shfmt options
+shell_variant = bash
+binary_next_line = true
+switch_case_indent = true
+space_redirects = false
+function_next_line = false
+
+[*.md]
+trim_trailing_whitespace = false
