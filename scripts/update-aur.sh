@@ -14,15 +14,15 @@ sed -i "s/^pkgver=.*/pkgver=$VERSION/" ./PKGBUILD
 sed -i "s/^pkgrel=.*/pkgrel=1/" ./PKGBUILD
 
 updpkgsums || {
-	printf "ERROR: updpkgsums failed\n" >&2
-	exit 1
+  printf "ERROR: updpkgsums failed\n" >&2
+  exit 1
 }
 
 rm -f ./*.tar.gz
 
 makepkg --clean || {
-	printf "ERROR: makepkg --clean failed\n" >&2
-	exit 1
+  printf "ERROR: makepkg --clean failed\n" >&2
+  exit 1
 }
 
 printf "\n"
@@ -34,8 +34,8 @@ printf "\n"
 read -rp "Commit and push? (y/N): " CHOICE
 
 [[ "${CHOICE,,}" != "y" && "${CHOICE,,}" != "yes" ]] && {
-	printf "Canceled\n" >&2
-	exit 1
+  printf "Canceled\n" >&2
+  exit 1
 }
 
 makepkg --printsrcinfo >./.SRCINFO

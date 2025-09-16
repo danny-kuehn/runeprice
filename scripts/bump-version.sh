@@ -14,8 +14,8 @@ printf "\n"
 read -rp "Commit and push? (y/N): " CHOICE
 
 [[ "${CHOICE,,}" != "y" && "${CHOICE,,}" != "yes" ]] && {
-	printf "Canceled\n" >&2
-	exit 1
+  printf "Canceled\n" >&2
+  exit 1
 }
 
 git add ./runeprice.sh ./VERSION.txt
